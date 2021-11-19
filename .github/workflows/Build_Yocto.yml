@@ -1,0 +1,24 @@
+name: Build_Yocto
+
+on:
+  workflow_dispatch:
+  #watch:
+  #  types: started
+  repository_dispatch:
+    types: build
+    
+jobs:
+  Yocto_build:
+    name: Yocto_build_full_image
+    runs-on: ubuntu-latest
+    steps:
+      - name: prepare_tools
+        run: |
+            mkdir ~/bin && PATH=~/bin:$PATH
+            curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
+            chmod a+x ~/bin/repo
+            mkdir ~/Yocto && cd ~/Yocto
+            repo init -u https://github.com/intel/iotg-yocto-ese-manifest.git -b refs/tags/release-73_ehl-mr1 -g all
+            repo sync -c -j8 --force-sync
+            repo forall managed/* -c git branch -f BUILD HEAD
+            pwd
