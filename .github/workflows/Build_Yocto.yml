@@ -12,8 +12,10 @@ jobs:
     name: Yocto_build_full_image
     runs-on: ubuntu-latest
     steps:
+    
       - name: prepare_tools
         run: |
+            sudo apt-get install diffstat -y
             mkdir ~/bin && PATH=~/bin:$PATH
             curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
             chmod a+x ~/bin/repo
