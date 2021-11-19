@@ -22,3 +22,9 @@ jobs:
             repo sync -c -j8 --force-sync
             repo forall managed/* -c git branch -f BUILD HEAD
             pwd
+            echo "IMAGE_INSTALL_append = \" bmap-tools\"" >> ~/Yocto/build/conf/local.conf
+            echo "IMAGE_INSTALL_append = \" devmem2\"" >> ~/Yocto/build/conf/local.conf
+            echo "IMAGE_INSTALL_append = \" iotg-tsn-ref-sw\"" >> ~/Yocto/build/conf/multiconfig/x86-common.inc
+            cd ~/Yocto/build
+            . ../intel-embedded-system-enabling/oe-init-build-env .
+            bitbake mc:x86:core-image-sato-sdk
